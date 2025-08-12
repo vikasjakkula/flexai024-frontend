@@ -10,7 +10,6 @@ import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
 import FlexAiContent from '../components/FlexAiContent';
 import {
   AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -31,6 +30,7 @@ function BackgroundBeamsWithCollisionDemo() {
           <div className="bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-2xl md:text-4xl lg:text-7xl font-bold font-sans tracking-tight">
             FLEX.AI is here
           </div>
+          
         </div>
       </div>
     </BackgroundBeamsWithCollision>
@@ -168,8 +168,8 @@ const Home = () => {
           </button>
 
           {/* JOIN AS A TRAINER */}
-          <button
-            onClick={() => setShowTrainerDialog(true)}
+  <button
+    onClick={() => setShowTrainerDialog(true)}
             className="font-raleway text-lg font-bold px-8 py-4 rounded-full transition-all duration-200 bg-sky-400 text-white shadow-md hover:bg-sky-500 active:scale-95 focus:outline-none"
             style={{
               boxShadow: '0 4px 16px 0 rgba(56,189,248,0.10)',
@@ -181,8 +181,8 @@ const Home = () => {
           </button>
 
           {/* EXPLORE PLANS */}
-          <button
-            onClick={() => setShowPlansDialog(true)}
+  <button
+    onClick={() => setShowPlansDialog(true)}
             className="font-raleway text-lg font-bold px-8 py-4 rounded-full transition-all duration-200 bg-sky-400 text-white shadow-md hover:bg-sky-500 active:scale-95 focus:outline-none"
             style={{
               boxShadow: '0 4px 16px 0 rgba(56,189,248,0.10)',
@@ -193,6 +193,53 @@ const Home = () => {
             EXPLORE PLANS
           </button>
         </div>
+
+        {/* Trainer and Plans Alert Dialogs mounted in Home scope */}
+        <AlertDialog open={showTrainerDialog} onOpenChange={setShowTrainerDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Join as a Trainer</AlertDialogTitle>
+              <AlertDialogDescription>
+                We’ll take you to the Library to explore trainer resources and get started.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setShowTrainerDialog(false);
+                  navigate('/library');
+                  setTimeout(() => window.scrollTo(0, 0), 0);
+                }}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog open={showPlansDialog} onOpenChange={setShowPlansDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Explore Plans</AlertDialogTitle>
+              <AlertDialogDescription>
+                You’ll be redirected to Pricing to see plan details and choose what suits you best.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setShowPlansDialog(false);
+                  navigate('/pricing');
+                  setTimeout(() => window.scrollTo(0, 0), 0);
+                }}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       {/* Popup Modal for Step 1 */}
