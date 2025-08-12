@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
+import AccountCreateWelcome from './pages/AccountCreateWelcome';
+import InputName from './pages/account/create/InputName';
+import GoalsIntro from './pages/account/create/GoalsIntro';
+import GoalsBigStep from './pages/account/create/GoalsBigStep';
+import GoalsLoseWeightOptions from './pages/account/create/GoalsLoseWeightOptions';
+import GoalsLoseWeightAffirmation from './pages/account/create/GoalsLoseWeightAffirmation';
+import ActivityLevel from './pages/account/create/ActivityLevel';
+import Demographic1 from './pages/account/create/Demographic1';
+import Demographic2 from './pages/account/create/Demographic2';
+import UserId from './pages/account/create/UserId';
+import LastStep from './pages/account/create/LastStep';
+import Congratulations from './pages/account/create/Congratulations';
 import Library, { CalendarDemo } from './pages/Library';
 import Pricing from './pages/Pricing';
-import LoadingPage from './components/LoadingPage';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './App.css';
@@ -30,23 +42,29 @@ import Profile from './pages/Profile';
 import { Analytics } from "@vercel/analytics/react";
 
 function AppContent() {
-  const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) return <LoadingPage />;
+  const location = useLocation();
+  const hideChrome = location.pathname.startsWith('/account/create/welcome');
 
   return (
     <div className={`app-container ${theme}`}>
-      <Navbar />
-      <main style={{ paddingTop: '80px' }}>
+      {!hideChrome && <Navbar />}
+      <main style={{ paddingTop: hideChrome ? 0 : '80px' }}>
         <Routes>
           {/* Public route */}
           <Route path="/" element={<Home />} />
+          <Route path="/account/create/welcome" element={<AccountCreateWelcome />} />
+          <Route path="/account/create/input-name" element={<InputName />} />
+          <Route path="/account/create/goals" element={<GoalsIntro />} />
+          <Route path="/account/create/goals/big-step" element={<GoalsBigStep />} />
+          <Route path="/account/create/goals/lose-weight/options" element={<GoalsLoseWeightOptions />} />
+          <Route path="/account/create/goals/lose-weight/affirmation" element={<GoalsLoseWeightAffirmation />} />
+          <Route path="/account/create/activity-level" element={<ActivityLevel />} />
+          <Route path="/account/create/demographic-1" element={<Demographic1 />} />
+          <Route path="/account/create/demographic-2" element={<Demographic2 />} />
+          <Route path="/account/create/user-id" element={<UserId />} />
+          <Route path="/account/create/last-step" element={<LastStep />} />
+          <Route path="/account/create/congratulations" element={<Congratulations />} />
           
           {/* Protected routes */}
           <Route path="/library" element={
@@ -144,7 +162,7 @@ function AppContent() {
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
-      <Footer />
+      {!hideChrome && <Footer />}
       {/* <ChatWidget /> Removed as per user request */}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+
 
 const AlertDialog = ({
   open,
@@ -57,7 +57,6 @@ const Profile = () => {
 
   // Get user and signOut function from AuthContext
   const { user, signOut } = useAuth() || {};
-  const navigate = useNavigate();
 
   // Use Google user if available, else fallback
   const displayUser = {

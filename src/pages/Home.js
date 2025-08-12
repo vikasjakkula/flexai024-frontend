@@ -7,6 +7,7 @@ import { AnimatedTestimonials } from "../components/ui/animated-testimonials";
 import { PinContainer } from "../components/ui/3d-pin";
 import HeroSection, { HeroSectionLeftImage, FlexAiAudienceSection } from "../components/HeroSection";
 import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
+import FlexAiContent from '../components/FlexAiContent';
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -113,9 +114,7 @@ const Home = () => {
 
   const handleClosePopup = () => setShowPopup(false);
 
-  const handleExplorePlans = () => {
-    navigate('/pricing');
-  };
+  // Removed unused handleExplorePlans to satisfy ESLint no-unused-vars
 
   // Scroll to top when component mounts
   React.useEffect(() => {
@@ -125,151 +124,76 @@ const Home = () => {
   return (
     <div className="center-desktop py-4 bg-[#f4fafd] min-h-screen">
       <HeroSection />
+      <FlexAiContent />
+
       <div className="relative w-full mb-6" style={{ maxWidth: '100vw', borderRadius: '1rem' }}>
         {/* Top Curve */}
         <svg className="absolute top-0 left-0 w-full h-[100px]" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0,100 Q720,0 1440,100 L1440,0 L0,0 Z" fill="#38bdf8" />
         </svg>
         {/* Main Content */}
-        <div className="bg-gradient-to-br from-[#38bdf8] to-[#22a2f4] text-white p-8 pt-20 pb-20 text-center font-raleway font-extrabold text-2xl tracking-wide shadow-2xl relative z-10 flex flex-col items-center justify-center rounded-2xl max-w-full overflow-hidden">
+        <div>
           {/* Classic Background Pattern */}
-          <div className="absolute inset-0">
+          <div>
             {/* Subtle diagonal stripes using CSS gradients */}
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background:
-                  "repeating-linear-gradient(135deg, #e0f2fe 0px, #e0f2fe 24px, #f4fafd 24px, #f4fafd 48px)",
-                opacity: 0.7,
-                borderRadius: "1rem",
-              }}
-              className="w-full h-full"
-            />
+            <div className="w-full h-full" />
             {/* Soft white overlay for clarity */}
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "rgba(255,255,255,0.65)",
-                borderRadius: "1rem",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                zIndex: 1,
-              }}
-            />
+            <div className="w-full h-full" />
           </div>
-          {/* Main Content */}
-          <div
-            className="relative z-10 flex flex-col items-center justify-center"
+        </div>
+        {/* Modern Horizontal Action Buttons Section */}
+        <div
+          className="flex flex-row justify-center items-center gap-8 my-10 px-4 z-10 relative"
+          style={{
+            background: `url(${process.env.PUBLIC_URL}/backgroundflexai.png) center/cover no-repeat`,
+            borderRadius: '3rem',
+            padding: '2.5rem 1rem',
+            minHeight: '180px',
+            width: '100%',
+            maxWidth: '100vw',
+            fontFamily: "'Raleway', sans-serif",
+          }}
+        >
+          {/* START NOW */}
+          <button
+            onClick={handleStartNow}
+            className="font-raleway text-lg font-bold px-8 py-4 rounded-full transition-all duration-200 bg-sky-400 text-white shadow-md hover:bg-sky-500 active:scale-95 focus:outline-none"
             style={{
-              background: "rgba(255,255,255,0.92)",
-              borderRadius: "1rem",
-              maxWidth: "100vw",
-              padding: "2.5rem 2rem 2.5rem 2rem",
-              boxShadow: "0 8px 32px 0 rgba(56,189,248,0.10), 0 1.5px 8px 0 rgba(34,162,244,0.07)",
-              border: "1.5px solid #e0e7ef",
+              boxShadow: '0 4px 16px 0 rgba(56,189,248,0.10)',
+              fontFamily: "'Raleway', sans-serif",
+              letterSpacing: '0.03em',
             }}
           >
-            <img
-              src={process.env.PUBLIC_URL + '/newflex.png'}
-              alt="FLEX.AI Logo"
-              className="h-16 mx-auto mb-3 block"
-              style={{ minHeight: 64, minWidth: 64 }}
-            />
-            <div className="text-base font-normal mt-2 tracking-normal text-[#222]">
-              Your Ultimate Gym Companion
-            </div>
-            <div className="mt-4 font-semibold text-sm tracking-wider text-[#3b82f6]">
-              [ GO AHEAD AND START YOUR JOURNEY ]
-            </div>
-            <button
-              className="glow-btn mt-4"
-              onClick={handleExplorePlans}
-            >
-              Get Started
-            </button>
-          </div>
-          {/* Bottom Curve */}
-          <svg className="absolute bottom-0 left-0 w-full h-[100px]" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ transform: 'scaleY(-1)' }}>
-            <path d="M0,100 Q720,0 1440,100 L1440,0 L0,0 Z" fill="#38bdf8" />
-          </svg>
-                 </div>
-       </div>
+            START NOW
+          </button>
 
-                                                               {/* Action Buttons Section */}
-          <div className="action-btns flex flex-col md:flex-row gap-6 my-8 justify-center items-center px-4">
-            <Button
-              onClick={handleStartNow}
-              className="custom-btn w-full max-w-xs bg-black text-white font-semibold rounded-full py-3 px-6 relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:shadow-xl group"
-            >
-              <span className="relative z-10 text-lg transition-all duration-300 group-hover:text-white">START NOW</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"></div>
-              <div className="absolute inset-0 bg-white opacity-20 group-hover:opacity-0 transition-all duration-500 ease-in-out"></div>
-              <div className="absolute -top-2 -left-2 w-4 h-4 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-all duration-500 delay-100"></div>
-              <div className="absolute -bottom-2 -right-2 w-3 h-3 bg-white transform rotate-45 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-500 delay-200"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-all duration-500 delay-300"></div>
-            </Button>
-            <AlertDialog open={showTrainerDialog} onOpenChange={setShowTrainerDialog}>
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="custom-btn w-full max-w-xs bg-black text-white font-semibold rounded-full py-3 px-6 relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:shadow-xl group"
-                  onClick={e => { e.preventDefault(); setShowTrainerDialog(true); }}
-                >
-                  <span className="relative z-10 text-lg transition-all duration-300 group-hover:text-white">JOIN AS A TRAINER</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"></div>
-                  <div className="absolute inset-0 bg-white opacity-20 group-hover:opacity-0 transition-all duration-500 ease-in-out"></div>
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-all duration-500 delay-100"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-white transform rotate-45 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-500 delay-200"></div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-all duration-500 delay-300"></div>
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    You are about to join as a trainer. Continue?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => { setShowTrainerDialog(false); navigate('/library'); setTimeout(() => window.scrollTo(0, 0), 0); }}>
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <AlertDialog open={showPlansDialog} onOpenChange={setShowPlansDialog}>
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="custom-btn w-full max-w-xs bg-black text-white font-semibold rounded-full py-3 px-6 relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:shadow-xl group"
-                  onClick={e => { e.preventDefault(); setShowPlansDialog(true); }}
-                >
-                  <span className="relative z-10 text-lg transition-all duration-300 group-hover:text-white">EXPLORE PLANS</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"></div>
-                  <div className="absolute inset-0 bg-white opacity-20 group-hover:opacity-0 transition-all duration-500 ease-in-out"></div>
-                  <div className="absolute -top-2 -left-2 w-4 h-4 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-all duration-500 delay-100"></div>
-                  <div className="absolute -bottom-2 -right-2 w-3 h-3 bg-white transform rotate-45 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-500 delay-200"></div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-all duration-500 delay-300"></div>
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    You are about to explore plans. Continue?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => { setShowPlansDialog(false); navigate('/pricing'); }}>
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
+          {/* JOIN AS A TRAINER */}
+          <button
+            onClick={() => setShowTrainerDialog(true)}
+            className="font-raleway text-lg font-bold px-8 py-4 rounded-full transition-all duration-200 bg-sky-400 text-white shadow-md hover:bg-sky-500 active:scale-95 focus:outline-none"
+            style={{
+              boxShadow: '0 4px 16px 0 rgba(56,189,248,0.10)',
+              fontFamily: "'Raleway', sans-serif",
+              letterSpacing: '0.03em',
+            }}
+          >
+            JOIN AS A TRAINER
+          </button>
+
+          {/* EXPLORE PLANS */}
+          <button
+            onClick={() => setShowPlansDialog(true)}
+            className="font-raleway text-lg font-bold px-8 py-4 rounded-full transition-all duration-200 bg-sky-400 text-white shadow-md hover:bg-sky-500 active:scale-95 focus:outline-none"
+            style={{
+              boxShadow: '0 4px 16px 0 rgba(56,189,248,0.10)',
+              fontFamily: "'Raleway', sans-serif",
+              letterSpacing: '0.03em',
+            }}
+          >
+            EXPLORE PLANS
+          </button>
+        </div>
+      </div>
 
       {/* Popup Modal for Step 1 */}
       {showPopup && (
@@ -329,6 +253,7 @@ const Home = () => {
       <HeroSectionLeftImage />
     </div>
   );
-};
+
+}
 
 export default Home;

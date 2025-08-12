@@ -32,12 +32,12 @@ function Navbar() {
   const { user, loading, error } = useAuth();
 
   const libraryOutlets = [
+    { name: 'Flex here', path: '/library/exercises' },
     { name: 'Calender', path: '/library/calender' },
     { name: 'Workout Logs', path: '/library/workout-logs' },
+    { name: 'My Routines', path: '/library/routines' },
     { name: 'Video Library', path: '/library/video-library' },
     { name: 'Form Checker AI', path: '/library/form-checker' },
-    { name: 'My Routines', path: '/library/routines' },
-    { name: 'Exercise Encyclopedia', path: '/library/exercises' },
   ];
 
   const handleLogoClick = () => {
