@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './App.css';
@@ -46,14 +46,15 @@ const Profile = lazy(() => import('./pages/Profile'));
 function AppContent() {
   const { theme } = useTheme();
   const location = useLocation();
-  const hideChrome = location.pathname.startsWith('/account/create/welcome');
+  // Fix: also hide chrome for all /account/create/* onboarding steps, not just welcome
+  const hideChrome = location.pathname.startsWith('/account/create');
 
   return (
     <div className={`app-container ${theme}`}>
       {!hideChrome && <Navbar />}
       <main style={{ paddingTop: hideChrome ? 0 : '80px' }}>
         <Routes>
-          {/* Public route */}
+          {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/account/create/welcome" element={<AccountCreateWelcome />} />
           <Route path="/account/create/input-name" element={<InputName />} />
@@ -67,7 +68,7 @@ function AppContent() {
           <Route path="/account/create/user-id" element={<UserId />} />
           <Route path="/account/create/last-step" element={<LastStep />} />
           <Route path="/account/create/congratulations" element={<Congratulations />} />
-          
+
           {/* Protected routes */}
           <Route path="/library" element={
             <ProtectedRoute>
@@ -166,7 +167,7 @@ function AppContent() {
       </main>
       {!hideChrome && <Footer />}
       {/* <ChatWidget /> Removed as per user request */}
-      <Analytics /> {/* Added analytics */}
+      {/* Removed duplicate <Analytics /> here */}
     </div>
   );
 }
@@ -185,10 +186,10 @@ function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
-          <Suspense fallback={<div style={{padding:'40px', textAlign:'center'}}>Loading...</div>}>
+          <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>}>
             <AppContent />
-          </Suspense>
-          <Analytics /> {/* Added analytics */}
+          </React.Suspense>
+          <Analytics /> {/* Only one Analytics instance here */}
         </Router>
       </AuthProvider>
     </ThemeProvider>
