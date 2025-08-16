@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -77,6 +78,11 @@ export default function CommunityWorkouts() {
 
   return (
     <div className="flex flex-col gap-6">
+      <Helmet>
+        <title>Community Workouts – comment and collaborate | Flex.ai</title>
+        <meta name="description" content="Comment on community workouts and collaborate with other Flex.ai users." />
+        <link rel="canonical" href="https://flexai024.vercel.app/community/workouts" />
+      </Helmet>
       {dummyWorkouts.map((w, i) => (
         <div key={i} className="bg-white rounded-xl shadow p-4 flex flex-col gap-2 border">
           <div className="font-bold text-lg mb-1">{w.name}</div>

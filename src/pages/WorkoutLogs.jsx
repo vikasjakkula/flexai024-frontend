@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const initialLog = { date: '', bodyPart: '', reps: '', sets: '' };
 const bodyParts = ['Chest', 'Back', 'Legs', 'Arms', 'Shoulders', 'Core'];
@@ -18,6 +19,11 @@ export default function WorkoutLogs() {
 
   return (
     <div className="max-w-lg mx-auto p-4">
+      <Helmet>
+        <title>Workout Logs – track reps and sets | Flex.ai</title>
+        <meta name="description" content="Log workouts by body part, reps and sets. Track your weekly progress with Flex.ai." />
+        <link rel="canonical" href="https://flexai024.vercel.app/library/workout-logs" />
+      </Helmet>
       <h2 className="text-xl font-bold mb-4">🏋️ Workout Logs</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 bg-white rounded-xl shadow p-5 mb-6">
         <label>Date <input type="date" name="date" value={log.date} onChange={handleChange} className="border rounded px-3 py-2 w-full mt-1" required /></label>

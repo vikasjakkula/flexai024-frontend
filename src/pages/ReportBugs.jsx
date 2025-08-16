@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ContactFormCard from './ContactFormCard';
+import { Helmet } from 'react-helmet-async';
 
 const ReportBugs = () => {
   const [form, setForm] = useState({ page: '', description: '', screenshot: null });
@@ -38,7 +39,13 @@ const ReportBugs = () => {
   };
 
   return (
-    <ContactFormCard title="Report Bugs">
+    <>
+      <Helmet>
+        <title>Contact – Report Bugs | Flex.ai</title>
+        <meta name="description" content="Found an issue? Report bugs to the Flex.ai team so we can fix them fast." />
+        <link rel="canonical" href="https://flexai024.vercel.app/contact/report-bugs" />
+      </Helmet>
+      <ContactFormCard title="Report Bugs">
       {success ? (
         <div style={{ color: '#10b981', textAlign: 'center', fontWeight: 600, fontSize: '1.1rem' }}>
           Bug reported successfully. Our team will check it!
@@ -104,7 +111,8 @@ const ReportBugs = () => {
       <style>{`
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       `}</style>
-    </ContactFormCard>
+      </ContactFormCard>
+    </>
   );
 };
 

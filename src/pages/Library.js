@@ -1,5 +1,6 @@
 // src/pages/Library.js
 import React, { useState, useRef, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import LoadingPage from '../components/LoadingPage';
 import { Calendar } from '../components/ui/calendar.tsx';
 import { useRequireAuth } from '../contexts/AuthContext';
@@ -152,20 +153,37 @@ const Library = () => {
 
   return (
     <div ref={containerRef} style={{ minHeight: '100vh', background: 'linear-gradient(120deg, #f8fbff 0%, #e3f0ff 100%)', padding: '0 0 48px 0' }}>
+      <Helmet>
+        <title>Workouts Library – AI-guided exercises and routines | Flex.ai</title>
+        <meta name="description" content="Explore Flex.ai's AI-generated workout plans for strength, weight loss, and muscle gain. Step-by-step guides for every fitness level." />
+        <meta name="keywords" content="gym exercises, workout library, muscle building plan, home workout, gym workout plan" />
+        <link rel="canonical" href="https://flexai024.vercel.app/library" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Workouts Library – Flex.ai" />
+        <meta property="og:description" content="AI-generated workout plans and step-by-step guides." />
+        <meta property="og:url" content="https://flexai024.vercel.app/library" />
+        <meta property="og:image" content={`${process.env.PUBLIC_URL}/library.png`} />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 16px 0 16px' }}>
-        <img
-          src={process.env.PUBLIC_URL + '/library.png'}
-          alt="Choose Your Muscle Group"
-          style={{
-            display: 'block',
-            margin: '0 auto 32px auto',
-            maxWidth: '340px',
-            width: '100%',
-            borderRadius: '18px',
-            boxShadow: '0 4px 24px rgba(30,144,255,0.10)',
-            objectFit: 'cover',
-          }}
-        />
+        <h1 style={{position:'absolute', left:'-10000px', top:'auto', width:'1px', height:'1px', overflow:'hidden'}}>Flex.ai Workout Library</h1>
+        <picture>
+          <source srcSet={process.env.PUBLIC_URL + '/library.webp'} type="image/webp" />
+          <img
+            src={process.env.PUBLIC_URL + '/library.png'}
+            alt="Choose Your Muscle Group illustration"
+            style={{
+              display: 'block',
+              margin: '0 auto 32px auto',
+              maxWidth: '340px',
+              width: '100%',
+              borderRadius: '18px',
+              boxShadow: '0 4px 24px rgba(30,144,255,0.10)',
+              objectFit: 'cover',
+            }}
+            loading="lazy"
+          />
+        </picture>
         {muscleGroups.map((group) => (
           <div key={group.key} style={{ ...accordionStyle, boxShadow: open === group.key ? '0 8px 32px rgba(30,144,255,0.16)' : accordionStyle.boxShadow, transition: 'box-shadow 0.3s' }}>
             <button
@@ -262,13 +280,14 @@ const Library = () => {
                   >
                     {`Close ${videoExercise} Pop-up`}
                   </button>
-                  <div style={{ fontWeight: 600, fontSize: '1.2rem', marginBottom: 12, color: '#1b263b', fontFamily: 'Poppins, Raleway, Arial, sans-serif' }}>{videoExercise}</div>
+                   <div style={{ fontWeight: 600, fontSize: '1.2rem', marginBottom: 12, color: '#1b263b', fontFamily: 'Poppins, Raleway, Arial, sans-serif' }}>{videoExercise}</div>
                   <video
                     src={gymVideo}
                     autoPlay
                     loop
                     muted
                     playsInline
+                     aria-label={`${videoExercise} demo`}
                     style={{
                       width: '100%',
                       maxWidth: 400,

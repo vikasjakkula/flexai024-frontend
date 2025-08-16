@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const preMeals = [
   { name: 'Banana & Peanut Butter', time: '30 mins before', breakdown: 'Carbs: 27g, Protein: 4g, Fat: 8g', desc: 'Quick energy and sustained fuel.', icon: '🍌' },
@@ -15,6 +16,12 @@ export default function NutritionMeals() {
   const [open, setOpen] = useState('pre');
   return (
     <div className="flex flex-col gap-4">
+      <Helmet>
+        <title>Pre & Post-Workout Meals | Flex.ai</title>
+        <meta name="description" content="Pre- and post-workout meal ideas with macros for better energy and recovery." />
+        <link rel="canonical" href="https://flexai024.vercel.app/nutrition/meals" />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
       <div className="flex gap-2 mb-2">
         <button className={`px-4 py-2 rounded font-bold ${open === 'pre' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-600'}`} onClick={() => setOpen('pre')}>Pre-Workout Meals</button>
         <button className={`px-4 py-2 rounded font-bold ${open === 'post' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`} onClick={() => setOpen('post')}>Post-Workout Meals</button>

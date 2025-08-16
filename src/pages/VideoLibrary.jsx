@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const categories = ['Chest', 'Back', 'Legs', 'Arms', 'Shoulders', 'Core'];
 const videos = [
@@ -16,6 +17,13 @@ export default function VideoLibrary() {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
+      <Helmet>
+        <title>Video Library – workout tutorials | Flex.ai</title>
+        <meta name="description" content="Browse workout video tutorials across chest, back, legs, arms, shoulders, and core. Learn exercises the right way." />
+        <link rel="canonical" href="https://flexai024.vercel.app/library/video-library" />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
+      <h1 style={{position:'absolute',left:'-10000px',top:'auto',width:'1px',height:'1px',overflow:'hidden'}}>Flex.ai Workout Video Library</h1>
       <h2 className="text-xl font-bold mb-4">🎥 Video Library</h2>
       <div className="flex gap-2 mb-4">
         <select value={cat} onChange={e => setCat(e.target.value)} className="border rounded px-3 py-2">
@@ -35,7 +43,7 @@ export default function VideoLibrary() {
       {modal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow p-6 max-w-md w-full relative">
-            <button onClick={() => setModal(null)} className="absolute top-2 right-2 text-xl">✖</button>
+            <button onClick={() => setModal(null)} className="absolute top-2 right-2 text-xl" aria-label="Close video">✖</button>
             <video src={modal.url} controls autoPlay className="w-full rounded" />
             <div className="mt-2 font-semibold">{modal.title}</div>
           </div>

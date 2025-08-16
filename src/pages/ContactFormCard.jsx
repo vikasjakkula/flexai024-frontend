@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const ContactFormCard = ({ title, children }) => (
   <div style={{
@@ -13,6 +14,11 @@ const ContactFormCard = ({ title, children }) => (
     gap: '1.5rem',
     alignItems: 'stretch',
   }}>
+    <Helmet>
+      <title>Contact – Flex.ai</title>
+      <meta name="description" content="Get in touch with the Flex.ai team for support, partnerships, and media inquiries." />
+      <link rel="canonical" href="https://flexai024.vercel.app/contact" />
+    </Helmet>
     {title && <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 700, textAlign: 'center', color: '#1DA1F2' }}>{title}</h2>}
     {children}
   </div>

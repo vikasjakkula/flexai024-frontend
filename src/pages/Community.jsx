@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const tabs = [
   { name: 'Forum Q&A', path: 'forum' },
@@ -10,6 +11,12 @@ const tabs = [
 export default function Community() {
   return (
     <div className="max-w-2xl mx-auto p-4">
+      <Helmet>
+        <title>Community – forums, photos, and workout comments | Flex.ai</title>
+        <meta name="description" content="Join the Flex.ai community. Ask questions, share progress photos, and discuss workouts with other fitness enthusiasts." />
+        <link rel="canonical" href="https://flexai024.vercel.app/community" />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
       <div className="flex gap-4 mb-6 border-b pb-2">
         {tabs.map(tab => (
           <NavLink

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -26,6 +27,10 @@ export default function Demographic2() {
 
   return (
     <OnboardingShell progress={68}>
+      <Helmet>
+        <title>Onboarding – Demographics 2 | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <div style={title}>How tall are you?</div>
         <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>

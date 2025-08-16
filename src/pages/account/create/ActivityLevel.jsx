@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 const levels = [
@@ -185,6 +186,10 @@ export default function ActivityLevel() {
 
   return (
     <div style={containerStyle}>
+      <Helmet>
+        <title>Onboarding – Activity level | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={welcomeTextStyle}>Welcome to FlexAI</div>
       
       <div style={titleStyle}>What is your baseline activity level?</div>

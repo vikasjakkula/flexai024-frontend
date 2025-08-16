@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const exercises = ['Bench Press', 'Pull-Up', 'Squat', 'Push-Up', 'Deadlift'];
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -26,6 +27,11 @@ export default function MyRoutines() {
 
   return (
     <div className="max-w-lg mx-auto p-4">
+      <Helmet>
+        <title>My Routines – plan and track workouts | Flex.ai</title>
+        <meta name="description" content="Create and save workout routines. Pick exercises, set training days, and track your progress with Flex.ai." />
+        <link rel="canonical" href="https://flexai024.vercel.app/library/routines" />
+      </Helmet>
       <h2 className="text-xl font-bold mb-4">📝 My Routines</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 bg-white rounded-xl shadow p-5 mb-6">
         <label>Routine Name <input name="name" value={routine.name} onChange={handleChange} className="border rounded px-3 py-2 w-full mt-1" required /></label>

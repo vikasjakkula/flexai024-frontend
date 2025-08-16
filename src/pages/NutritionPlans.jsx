@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const plans = {
   gain: {
@@ -25,6 +26,12 @@ export default function NutritionPlans() {
   const [tab, setTab] = useState('gain');
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-4">
+      <Helmet>
+        <title>Diet Plans – weight gain and loss | Flex.ai</title>
+        <meta name="description" content="AI-generated diet plans for weight gain and weight loss with meal breakdowns and calories." />
+        <link rel="canonical" href="https://flexai024.vercel.app/nutrition/plans" />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
       <div className="flex gap-2 mb-2">
         <button className={`px-4 py-2 rounded font-bold ${tab === 'gain' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}`} onClick={() => setTab('gain')}>Weight Gain Plan</button>
         <button className={`px-4 py-2 rounded font-bold ${tab === 'loss' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'}`} onClick={() => setTab('loss')}>Weight Loss Plan</button>

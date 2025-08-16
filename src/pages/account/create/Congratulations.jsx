@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 export default function Congratulations() {
@@ -159,6 +160,10 @@ export default function Congratulations() {
 
   return (
     <div style={containerStyle}>
+      <Helmet>
+        <title>Onboarding – Completed | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={welcomeTextStyle}>Welcome to FlexAI</div>
       
       <div style={congratulationsStyle}>Congratulations!</div>

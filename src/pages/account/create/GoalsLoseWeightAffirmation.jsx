@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -34,6 +35,10 @@ export default function GoalsLoseWeightAffirmation() {
 
   return (
     <OnboardingShell progress={42}>
+      <Helmet>
+        <title>Onboarding – Choose your goals | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={title}>Thanks ooo! Now for your goals.</div>
       <div style={body}>
         Select up to 3 that are important to you, including one weight goal.

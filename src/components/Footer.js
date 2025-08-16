@@ -54,11 +54,15 @@ const Footer = () => {
           {/* Company info section - takes up more space */}
           <div className="md:col-span-1 space-y-4">
             <div className="mb-6">
-              <img 
-                src={process.env.PUBLIC_URL + '/flex.png'} 
-                alt="Flex Logo" 
-                className="h-12 w-auto mb-4" 
-              />
+              <picture>
+                <source srcSet={process.env.PUBLIC_URL + '/flex.webp'} type="image/webp" />
+                <img 
+                  src={process.env.PUBLIC_URL + '/flex.png'} 
+                  alt="Flex.ai brand logo" 
+                  className="h-12 w-auto mb-4" 
+                  loading="lazy"
+                />
+              </picture>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
                 Your ultimate fitness companion for personalized workouts, nutrition guidance, and achieving your health goals.
               </p>

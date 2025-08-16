@@ -110,7 +110,6 @@ function Navbar() {
       <div className="flex items-center">
         <video
           src={process.env.PUBLIC_URL + '/FLEX.mp4'}
-          alt="FLEX.AI Logo"
           style={{
             height: isFloating ? '48px' : '32px',
             transition: 'height 0.3s',
@@ -125,6 +124,7 @@ function Navbar() {
           loop
           muted
           playsInline
+          aria-label="FLEX.AI animated logo"
         />
       </div>
 

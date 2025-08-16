@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -31,6 +32,10 @@ export default function GoalsIntro() {
 
   return (
     <OnboardingShell progress={20}>
+      <Helmet>
+        <title>Onboarding – Goals intro | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={title}>Starting is the hardest part.</div>
       <div style={body}>
         Up your step count with our walking plans to increase your metabolism, improve your mood, and more.

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -20,6 +21,10 @@ export default function GoalsBigStep() {
 
   return (
     <OnboardingShell progress={28}>
+      <Helmet>
+        <title>Onboarding – Goals big step | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={title}>Great! You’ve just taken a big step on your journey.</div>
       <div style={body}>
         Health benefits of being more active include increasing your metabolism, keeping your joints healthy, and improving your mental outlook.

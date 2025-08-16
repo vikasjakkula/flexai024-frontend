@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ContactFormCard from './ContactFormCard';
+import { Helmet } from 'react-helmet-async';
 
 const AskQuestions = () => {
   const [form, setForm] = useState({ name: '', email: '', question: '' });
@@ -37,7 +38,15 @@ const AskQuestions = () => {
   };
 
   return (
-    <ContactFormCard title="Ask Questions">
+    <>
+      <Helmet>
+        <title>Contact – Ask Questions | Flex.ai</title>
+        <meta name="description" content="Get in touch with the Flex.ai team for support, partnerships, and media inquiries." />
+        <meta name="keywords" content="flex.ai, gym guide, AI fitness coach, contact flex.ai, support, fitness app help" />
+        <link rel="canonical" href="https://flexai024.vercel.app/contact/ask-questions" />
+      </Helmet>
+      <h1 style={{position:'absolute',left:'-10000px',top:'auto',width:'1px',height:'1px',overflow:'hidden'}}>Contact Flex.ai – Ask Questions</h1>
+      <ContactFormCard title="Ask Questions">
       {success ? (
         <div style={{ color: '#10b981', textAlign: 'center', fontWeight: 600, fontSize: '1.1rem' }}>
           Thank you! We'll get back to you soon.
@@ -102,7 +111,8 @@ const AskQuestions = () => {
       <style>{`
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       `}</style>
-    </ContactFormCard>
+      </ContactFormCard>
+    </>
   );
 };
 

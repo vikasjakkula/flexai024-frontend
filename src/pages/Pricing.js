@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import LoadingPage from '../components/LoadingPage'; // Adjust path if needed
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
@@ -144,6 +145,20 @@ const Pricing = () => {
 
   return (
     <div style={{ background: '#f4fafd', minHeight: '100vh', padding: '2rem 0' }}>
+      <Helmet>
+        <title>Flex.ai Premium – advanced AI coaching and custom plans</title>
+        <meta name="description" content="Unlock Flex.ai Premium – advanced AI fitness coaching, custom plans, priority support, and exclusive workout content." />
+        <meta name="keywords" content="flex.ai, fitness premium subscription, AI fitness coach, premium workout plans, gym tracker, personal trainer app" />
+        <link rel="canonical" href="https://flexai024.vercel.app/pricing" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Flex.ai Premium – advanced AI coaching" />
+        <meta property="og:description" content="Unlock advanced AI fitness coaching, custom plans, and exclusive content." />
+        <meta property="og:url" content="https://flexai024.vercel.app/pricing" />
+        <meta property="og:image" content={`${process.env.PUBLIC_URL}/newflex.png`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
+      <h1 style={{position:'absolute',left:'-10000px',top:'auto',width:'1px',height:'1px',overflow:'hidden'}}>Flex.ai Premium Pricing</h1>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <div style={{ color: '#1b9df3', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.5rem' }}>Pricing</div>
         <div style={{ fontWeight: 900, fontSize: '2.2rem', fontFamily: 'Raleway, Arial, sans-serif', marginBottom: '0.5rem' }}>

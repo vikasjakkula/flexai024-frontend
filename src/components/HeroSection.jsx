@@ -22,11 +22,15 @@ export default function HeroSection() {
       </div>
       {/* Right: Image */}
       <div className="flex-1 flex items-center justify-center">
-        <img
-          src="/iconright.png"
-          alt="Hero Illustration"
-          className="w-full max-w-2xl h-[28rem] md:h-[36rem] object-contain ml-0 md:ml-40"
-        />
+        <picture>
+          <source srcSet="/iconright.webp" type="image/webp" />
+          <img
+            src="/iconright.png"
+            alt="Right side hero fitness illustration"
+            className="w-full max-w-2xl h-[28rem] md:h-[36rem] object-contain ml-0 md:ml-40"
+            loading="lazy"
+          />
+        </picture>
       </div>
     </div>
   );
@@ -38,15 +42,19 @@ export function HeroSectionLeftImage() {
     <div className="w-full min-h-[90vh] bg-white flex flex-col md:flex-row items-center justify-center px-4 md:px-16 py-12 gap-8">
       {/* Left: Image */}
       <div className="flex-1 flex items-center justify-center">
-        <img
-          src="/iconleft.png"
-          alt="Hero Illustration Left"
-          className="w-full max-w-2xl h-[28rem] md:h-[36rem] object-contain mr-0 md:mr-40"
-        />
+        <picture>
+          <source srcSet="/iconleft.webp" type="image/webp" />
+          <img
+            src="/iconleft.png"
+            alt="Hero Illustration Left showing a fitness icon"
+            className="w-full max-w-2xl h-[28rem] md:h-[36rem] object-contain mr-0 md:mr-40"
+            loading="lazy"
+          />
+        </picture>
       </div>
       {/* Right: Text and animation */}
       <div className="flex-1 flex flex-col items-start justify-center max-w-xl">
-        <motion.h1
+        <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -55,7 +63,7 @@ export function HeroSectionLeftImage() {
           )}
         >
           "No more Random Workouts, Just Results"<ContainerTextFlip words={words} />
-        </motion.h1>
+        </motion.h2>
         {/* Optionally add a subheading here */}
       </div>
     </div>

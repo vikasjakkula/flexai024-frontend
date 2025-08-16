@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -15,6 +16,10 @@ export default function UserId() {
 
   return (
     <OnboardingShell progress={76}>
+      <Helmet>
+        <title>Onboarding – Create username | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={title}>Create a username.</div>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <div style={{ color: '#6b7280', fontWeight: 700, marginBottom: 6 }}>Create a username</div>

@@ -1,15 +1,26 @@
 import React from 'react';
 import TraditionalDocWorkflowCard from '../components/TraditionalDocWorkflowCard';
+import { Helmet } from 'react-helmet-async';
 
 export default function ExerciseEncyclopedia() {
   return (
     <div className="w-full px-0 md:px-0 font-raleway">
+      <Helmet>
+        <title>Exercise Encyclopedia – complete gym guide with videos | Flex.ai</title>
+        <meta name="description" content="Comprehensive gym exercise guide with videos, GIFs, and images for all muscle groups. Learn proper form and build strength effectively." />
+        <meta name="keywords" content="exercise encyclopedia, gym guide, bodybuilding app, workout tracker" />
+        <link rel="canonical" href="https://flexai024.vercel.app/library/exercises" />
+        <meta property="og:title" content="Exercise Encyclopedia – Flex.ai" />
+        <meta property="og:description" content="Complete gym exercise guide with videos and GIFs." />
+        <meta property="og:image" content={`${process.env.PUBLIC_URL}/library.png`} />
+        <meta name="robots" content="index,follow" />
+      </Helmet>
       <TraditionalDocWorkflowCard />
       <div className="w-full bg-white rounded-2xl shadow-lg p-8 mb-8 mt-6 border border-slate-200 font-raleway">
-        <h2 className="text-3xl md:text-4xl font-extrabold font-raleway mb-4 text-[#1b9df3] flex items-center gap-2">
+        <h1 className="text-3xl md:text-4xl font-extrabold font-raleway mb-4 text-[#1b9df3] flex items-center gap-2">
           <span role="img" aria-label="book">📚</span>
           Complete Gym Exercise Guide with Videos, GIFs, and Images – Your Ultimate Workout Encyclopedia
-        </h2>
+        </h1>
         <p className="text-lg text-slate-700 mb-4 font-raleway">
           Welcome to the most comprehensive online gym exercise guide designed to help beginners, intermediate, and advanced fitness enthusiasts achieve their goals faster. Whether you’re looking to build muscle, lose fat, improve flexibility, or enhance strength, our guide offers step-by-step video tutorials, GIF demonstrations, and high-quality exercise images for every muscle group.
         </p>

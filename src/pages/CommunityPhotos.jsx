@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -94,6 +95,11 @@ export default function CommunityPhotos() {
 
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-4">
+      <Helmet>
+        <title>Community Photos – share your progress | Flex.ai</title>
+        <meta name="description" content="Share fitness progress photos with the Flex.ai community." />
+        <link rel="canonical" href="https://flexai024.vercel.app/community/photos" />
+      </Helmet>
       <div className="flex flex-col md:flex-row gap-2 mb-2 items-center">
         <input type="file" accept="image/*" onChange={handleUpload} disabled={!user} />
         <input

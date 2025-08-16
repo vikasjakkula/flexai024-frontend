@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import OnboardingShell from '../../../components/OnboardingShell';
 
@@ -18,6 +19,10 @@ export default function LastStep() {
 
   return (
     <OnboardingShell progress={90}>
+      <Helmet>
+        <title>Onboarding – Data consent | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={title}>Last step! Make sure your data is secure by reviewing data consents.</div>
       <div style={sub}>
         In order to finish creating and customizing your account, we need certain data permissions. (You may withdraw consent at any time.)

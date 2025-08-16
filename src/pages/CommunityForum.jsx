@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -79,6 +80,11 @@ export default function CommunityForum() {
 
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-4">
+      <Helmet>
+        <title>Community Forum – ask and answer questions | Flex.ai</title>
+        <meta name="description" content="Ask questions and discuss training with the Flex.ai community." />
+        <link rel="canonical" href="https://flexai024.vercel.app/community/forum" />
+      </Helmet>
       <div className="flex gap-2 mb-2">
         <input
           className="flex-1 border rounded px-3 py-2"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
@@ -122,7 +123,50 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="center-desktop py-4 bg-[#f4fafd] min-h-screen">
+    <div className="center-desktop py-4 bg-[#f4fafd] min-h-screen" role="main">
+      <Helmet>
+        <title>Flex.ai – AI-powered gym guide, workout tracker, and diet planner</title>
+        <meta name="description" content="Flex.ai – AI-powered gym guide, workout tracker, and diet planner. Get personalized fitness plans, track progress, and achieve your goals faster." />
+        <meta name="keywords" content="flex.ai, gym guide, AI workout planner, AI fitness coach, fitness app, workout tracker, gym tracker, personal trainer app, diet planner, bodybuilding app, gym workout plan, health and fitness, home workout, gym exercises, weight loss app, muscle building plan, fitness motivation, fitness premium subscription, AI gym assistant" />
+        <link rel="canonical" href="https://flexai024.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Flex.ai – AI-powered gym guide" />
+        <meta property="og:description" content="AI-powered gym guide, workout tracker, and diet planner." />
+        <meta property="og:url" content="https://flexai024.vercel.app/" />
+        <meta property="og:image" content={`${process.env.PUBLIC_URL}/newflex.png`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Flex.ai – AI-powered gym guide" />
+        <meta name="twitter:description" content="AI-powered gym guide, workout tracker, and diet planner." />
+        <meta name="twitter:image" content={`${process.env.PUBLIC_URL}/newflex.png`} />
+        <meta name="robots" content="index,follow" />
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Flex.ai",
+            "operatingSystem": "Web, Android, iOS",
+            "applicationCategory": "HealthApplication",
+            "description": "Flex.ai is an AI-powered gym guide, workout tracker, and diet planner.",
+            "url": "https://flexai024.vercel.app/",
+            "offers": [{
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "name": "Free"
+            },{
+              "@type": "Offer",
+              "price": "9.99",
+              "priceCurrency": "USD",
+              "name": "Premium"
+            }],
+            "creator": {
+              "@type": "Organization",
+              "name": "Flex.ai",
+              "url": "https://flexai024.vercel.app/"
+            }
+          }
+        `}</script>
+      </Helmet>
       <HeroSection />
       <FlexAiContent />
 
@@ -142,7 +186,7 @@ const Home = () => {
           </div>
         </div>
         {/* Modern Horizontal Action Buttons Section */}
-        <div
+         <div
           className="flex flex-row justify-center items-center gap-8 my-10 px-4 z-10 relative"
           style={{
             background: `url(${process.env.PUBLIC_URL}/backgroundflexai.png) center/cover no-repeat`,
@@ -163,6 +207,7 @@ const Home = () => {
               fontFamily: "'Raleway', sans-serif",
               letterSpacing: '0.03em',
             }}
+            aria-label="Start now with Flex.ai"
           >
             START NOW
           </button>
@@ -176,6 +221,7 @@ const Home = () => {
               fontFamily: "'Raleway', sans-serif",
               letterSpacing: '0.03em',
             }}
+            aria-label="Join as a trainer"
           >
             JOIN AS A TRAINER
           </button>
@@ -189,6 +235,7 @@ const Home = () => {
               fontFamily: "'Raleway', sans-serif",
               letterSpacing: '0.03em',
             }}
+            aria-label="Explore plans"
           >
             EXPLORE PLANS
           </button>
@@ -247,13 +294,13 @@ const Home = () => {
         <div className="fixed inset-0 bg-black/35 flex items-center justify-center z-[1000] p-4">
           <div className="bg-white rounded-xl p-8 min-w-[280px] max-w-[90vw] shadow-2xl relative text-center">
             <Button className="absolute top-3 right-4 bg-transparent border-0 text-2xl text-[#1b9df3] font-bold z-[1000] p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={handleClosePopup}>&times;</Button>
-            <img src={process.env.PUBLIC_URL + '/GOAL.png'} alt="Choose Your Goal" className="w-full max-w-[300px] mx-auto mb-4 block" />
+            <img src={process.env.PUBLIC_URL + '/GOAL.png'} alt="Choose Your Goal illustration" className="w-full max-w-[300px] mx-auto mb-4 block" />
             <div className="flex flex-col items-center gap-4 mt-4">
               <Button className="bg-[#1b9df3] text-white rounded-full py-3 px-6 font-bold text-base cursor-pointer my-3 shadow-md transition w-full max-w-xs" onClick={handlePopupBtn} aria-label="Lose Fat">
-                <img src={process.env.PUBLIC_URL + '/loose fat.png'} alt="Lose Fat" className="w-[100px] h-auto block mx-auto" />
+            <img src={process.env.PUBLIC_URL + '/loose fat.png'} alt="Lose Fat icon" className="w-[100px] h-auto block mx-auto" loading="lazy" />
               </Button>
               <Button className="bg-[#1b9df3] text-white rounded-full py-3 px-6 font-bold text-base cursor-pointer my-3 shadow-md transition w-full max-w-xs" onClick={handlePopupBtn} aria-label="Build Muscle">
-                <img src={process.env.PUBLIC_URL + '/buildmusle.png'} alt="Build Muscle" className="w-[100px] h-auto block mx-auto" />
+            <img src={process.env.PUBLIC_URL + '/buildmusle.png'} alt="Build Muscle icon" className="w-[100px] h-auto block mx-auto" loading="lazy" />
               </Button>
             </div>
           </div>
@@ -289,9 +336,9 @@ const Home = () => {
 
       <AnimatedTestimonialsDemo />
 
-      <div className="font-extrabold text-3xl font-raleway mb-2">Follow Me on x ( twitter )</div>
+      <h2 className="font-extrabold text-3xl font-raleway mb-2">Follow Me on X (Twitter)</h2>
 
-      <div className="font-extrabold text-3xl font-raleway mb-2">To stay Updated! Let's connect here</div>
+      <p className="font-extrabold text-3xl font-raleway mb-2">To stay Updated! Let's connect here</p>
 
       <AnimatedPinDemo />
 

@@ -115,7 +115,7 @@ function AccountCreateWelcome() {
 
       {/* Title */}
       <div style={headerStyle}>Welcome to</div>
-      <div style={brandStyle}><span style={brandWordStyle}>Flexai</span></div>
+      <div style={brandStyle}><span style={brandWordStyle}>Flex.ai</span></div>
 
       {/* Cards */}
       <div style={gridStyle}>

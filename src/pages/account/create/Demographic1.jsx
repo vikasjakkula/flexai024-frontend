@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 export default function Demographic1() {
@@ -211,6 +212,10 @@ export default function Demographic1() {
 
   return (
     <div style={containerStyle}>
+      <Helmet>
+        <title>Onboarding – Demographics 1 | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={welcomeTextStyle}>Welcome to FlexAI</div>
       
       <div style={titleStyle}>

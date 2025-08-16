@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './add.css';
+import { Analytics } from "@vercel/analytics/react"
 
 const AnimatedButtons = () => {
   const navigate = useNavigate();

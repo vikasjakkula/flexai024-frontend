@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 export default function InputName() {
@@ -174,6 +175,10 @@ export default function InputName() {
 
   return (
     <div style={containerStyle}>
+      <Helmet>
+        <title>Onboarding – Enter your name | Flex.ai</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div style={welcomeTextStyle}>Welcome to FlexAI</div>
       
       <div style={headingStyle}>What's your first name?</div>

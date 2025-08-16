@@ -1,45 +1,47 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Home from './pages/Home';
-import AccountCreateWelcome from './pages/AccountCreateWelcome';
-import InputName from './pages/account/create/InputName';
-import GoalsIntro from './pages/account/create/GoalsIntro';
-import GoalsBigStep from './pages/account/create/GoalsBigStep';
-import GoalsLoseWeightOptions from './pages/account/create/GoalsLoseWeightOptions';
-import GoalsLoseWeightAffirmation from './pages/account/create/GoalsLoseWeightAffirmation';
-import ActivityLevel from './pages/account/create/ActivityLevel';
-import Demographic1 from './pages/account/create/Demographic1';
-import Demographic2 from './pages/account/create/Demographic2';
-import UserId from './pages/account/create/UserId';
-import LastStep from './pages/account/create/LastStep';
-import Congratulations from './pages/account/create/Congratulations';
-import Library, { CalendarDemo } from './pages/Library';
-import Pricing from './pages/Pricing';
-
+import { lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './App.css';
 import './components/InfiniteScroll.css';
 import { ThemeProvider, useTheme } from './ThemeContext';
-import AskQuestions from './pages/AskQuestions';
-import ReportBugs from './pages/ReportBugs';
-import Community from './pages/Community';
-import CommunityForum from './pages/CommunityForum';
-import CommunityPhotos from './pages/CommunityPhotos';
-import CommunityWorkouts from './pages/CommunityWorkouts';
-import Nutrition from './pages/Nutrition';
-import NutritionProtein from './pages/NutritionProtein';
-import NutritionMeals from './pages/NutritionMeals';
-import NutritionPlans from './pages/NutritionPlans';
-import WorkoutLogs from './pages/WorkoutLogs';
-import VideoLibrary from './pages/VideoLibrary';
-import FormCheckerAI from './pages/FormCheckerAI';
-import MyRoutines from './pages/MyRoutines';
-import ExerciseEncyclopedia from './pages/ExerciseEncyclopedia';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import Profile from './pages/Profile';
 import { Analytics } from "@vercel/analytics/react";
+
+const Home = lazy(() => import('./pages/Home'));
+const AccountCreateWelcome = lazy(() => import('./pages/AccountCreateWelcome'));
+const InputName = lazy(() => import('./pages/account/create/InputName'));
+const GoalsIntro = lazy(() => import('./pages/account/create/GoalsIntro'));
+const GoalsBigStep = lazy(() => import('./pages/account/create/GoalsBigStep'));
+const GoalsLoseWeightOptions = lazy(() => import('./pages/account/create/GoalsLoseWeightOptions'));
+const GoalsLoseWeightAffirmation = lazy(() => import('./pages/account/create/GoalsLoseWeightAffirmation'));
+const ActivityLevel = lazy(() => import('./pages/account/create/ActivityLevel'));
+const Demographic1 = lazy(() => import('./pages/account/create/Demographic1'));
+const Demographic2 = lazy(() => import('./pages/account/create/Demographic2'));
+const UserId = lazy(() => import('./pages/account/create/UserId'));
+const LastStep = lazy(() => import('./pages/account/create/LastStep'));
+const Congratulations = lazy(() => import('./pages/account/create/Congratulations'));
+const Library = lazy(() => import('./pages/Library'));
+const CalendarDemoPage = lazy(() => import('./pages/Library').then(m => ({ default: m.CalendarDemo })));
+const Pricing = lazy(() => import('./pages/Pricing'));
+const AskQuestions = lazy(() => import('./pages/AskQuestions'));
+const ReportBugs = lazy(() => import('./pages/ReportBugs'));
+const Community = lazy(() => import('./pages/Community'));
+const CommunityForum = lazy(() => import('./pages/CommunityForum'));
+const CommunityPhotos = lazy(() => import('./pages/CommunityPhotos'));
+const CommunityWorkouts = lazy(() => import('./pages/CommunityWorkouts'));
+const Nutrition = lazy(() => import('./pages/Nutrition'));
+const NutritionProtein = lazy(() => import('./pages/NutritionProtein'));
+const NutritionMeals = lazy(() => import('./pages/NutritionMeals'));
+const NutritionPlans = lazy(() => import('./pages/NutritionPlans'));
+const WorkoutLogs = lazy(() => import('./pages/WorkoutLogs'));
+const VideoLibrary = lazy(() => import('./pages/VideoLibrary'));
+const FormCheckerAI = lazy(() => import('./pages/FormCheckerAI'));
+const MyRoutines = lazy(() => import('./pages/MyRoutines'));
+const ExerciseEncyclopedia = lazy(() => import('./pages/ExerciseEncyclopedia'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 function AppContent() {
   const { theme } = useTheme();
@@ -74,7 +76,7 @@ function AppContent() {
           } />
           <Route path="/library/calender" element={
             <ProtectedRoute>
-              <CalendarDemo />
+              <CalendarDemoPage />
             </ProtectedRoute>
           } />
           <Route path="/library/workout-logs" element={
@@ -164,6 +166,7 @@ function AppContent() {
       </main>
       {!hideChrome && <Footer />}
       {/* <ChatWidget /> Removed as per user request */}
+      <Analytics /> {/* Added analytics */}
     </div>
   );
 }
@@ -182,8 +185,10 @@ function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
-          <AppContent />
-          <Analytics />
+          <Suspense fallback={<div style={{padding:'40px', textAlign:'center'}}>Loading...</div>}>
+            <AppContent />
+          </Suspense>
+          <Analytics /> {/* Added analytics */}
         </Router>
       </AuthProvider>
     </ThemeProvider>

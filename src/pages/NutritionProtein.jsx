@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const foods = [
   { name: 'Eggs', protein: '13g', img: '🥚' },
@@ -14,6 +15,11 @@ const foods = [
 export default function NutritionProtein() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <Helmet>
+        <title>Protein-rich Foods – build muscle | Flex.ai</title>
+        <meta name="description" content="Explore high-protein foods for building muscle. Add items to your meal plan." />
+        <link rel="canonical" href="https://flexai024.vercel.app/nutrition/protein" />
+      </Helmet>
       {foods.map((f, i) => (
         <div key={i} className="bg-white rounded-xl shadow p-4 flex flex-col items-center gap-2 border">
           <div className="text-4xl">{f.img}</div>
