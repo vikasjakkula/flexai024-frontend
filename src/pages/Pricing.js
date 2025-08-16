@@ -109,8 +109,10 @@ const Pricing = () => {
     opacity: 0.7,
   };
 
+  console.log(process.env.REACT_APP_API_BASE_URL);
+
   const handlePayment = async () => {
-    const res = await fetch("http://localhost:5000/api/createOrder", {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL || "http://localhost:5000"}/api/createOrder`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: 900 }),
