@@ -125,6 +125,7 @@ export default function ExerciseEncyclopedia() {
 
             {/* CHEST */}
             <h4 className="text-xl font-bold text-[#1b9df3] mt-6 mb-2" style={{ fontSize: '1.18rem' }}>CHEST (Pectorals)</h4>
+            <img src={process.env.PUBLIC_URL + '/chest.png'} alt="Chest" className="w-full h-auto mb-4" />
             <div className="mb-2">
               <span className="font-semibold text-[#1b9df3]">Beginner Level</span>
               <ul className="list-disc list-inside ml-6">
