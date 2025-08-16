@@ -29,7 +29,7 @@ export default function ExerciseEncyclopedia() {
             Our mission is simple: to provide a structured, visual-based gym guide that makes workouts easy to understand and follow. Every exercise is demonstrated by fitness professionals, ensuring you learn the correct form, prevent injuries, and get the best possible results from your training.
           </p>
           <p style={{ fontSize: '1.08rem' }}>
-          Complete Gym Exercise Guide with Videos, GIFs, and Images – Your Ultimate Workout Encyclopedia
+            Complete Gym Exercise Guide with Videos, GIFs, and Images – Your Ultimate Workout Encyclopedia
           </p>
           <hr className="w-full border-t-2 border-[#1b9df3] my-8 font-raleway mx-auto" />
 
@@ -42,7 +42,7 @@ export default function ExerciseEncyclopedia() {
             <li className="text-left w-fit"><span className="font-semibold text-[#1b9df3]">Copyright-Free Media</span> – All exercise videos and images are sourced from trusted, license-free platforms, making them safe for personal and educational use.</li>
             <li className="text-left w-fit"><span className="font-semibold text-[#1b9df3]">Multiple Formats</span> – View workouts in video, GIF, or image form, so you can choose the format that works best for you.</li>
             <li className="text-left w-fit"><span className="font-semibold text-[#1b9df3]">Step-by-Step Instructions</span> – Learn how to perform every rep with perfect form.</li>
-            <li className="text-left w-fit"><span className="font-semibold text-[#1b9df3]">Organized For Muscle Groups</span> – Chest, back, shoulders, arms,Biceps, Triceps, legs, abs.</li>
+            <li className="text-left w-fit"><span className="font-semibold text-[#1b9df3]">Organized For Muscle Groups</span> – Chest, back, shoulders, arms, Biceps, Triceps, legs, abs.</li>
           </ul>
           <hr className="w-full border-t-2 border-[#1b9df3] my-8 font-raleway mx-auto" />
 
@@ -97,10 +97,27 @@ export default function ExerciseEncyclopedia() {
             <h2 className="text-3xl font-bold text-[#1b9df3] mb-4 text-center" style={{ fontSize: '2.1rem' }}>Complete Home Calisthenics Workout Guide</h2>
 
             <h3 className="text-xl font-bold text-[#1b9df3] mt-6 mb-2" style={{ fontSize: '1.22rem' }}>Equipment Needed (Minimal)</h3>
-            <ul className="list-disc list-inside mb-4 ml-4">
-              <li><span className="font-semibold text-[#1b9df3]">Essential</span>: Pull-up bar (doorway or wall-mounted)</li>
-              <li><span className="font-semibold text-[#1b9df3]">Optional</span>: Resistance bands, parallette bars, suspension trainer</li>
-              <li><span className="font-semibold text-[#1b9df3]">Alternatives</span>: Sturdy table, chairs, towels, backpack for weight</li>
+            <ul
+              className="list-disc mb-4 ml-4"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: '0.25rem',
+                listStylePosition: 'outside',
+                paddingLeft: '1.5rem',
+                marginLeft: 0,
+              }}
+            >
+              <li style={{ width: '100%' }}>
+                <span className="font-semibold text-[#1b9df3]">Essential</span>: Pull-up bar (doorway or wall-mounted)
+              </li>
+              <li style={{ width: '100%' }}>
+                <span className="font-semibold text-[#1b9df3]">Optional</span>: Resistance bands, parallette bars, suspension trainer
+              </li>
+              <li style={{ width: '100%' }}>
+                <span className="font-semibold text-[#1b9df3]">Alternatives</span>: Sturdy table, chairs, towels, backpack for weight
+              </li>
             </ul>
             <hr className="my-6 border-t-2 border-[#1b9df3]" />
 
@@ -417,4 +434,4 @@ export default function ExerciseEncyclopedia() {
       </div>
     </div>
   );
-} 
+}
