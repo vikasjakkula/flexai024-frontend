@@ -186,9 +186,7 @@ function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
-          <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>}>
-            <AppContent />
-          </React.Suspense>
+          <AppContent />
           <Analytics /> {/* Only one Analytics instance here */}
         </Router>
       </AuthProvider>

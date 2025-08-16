@@ -57,13 +57,16 @@ const Footer = () => {
               <picture>
                 <source srcSet={process.env.PUBLIC_URL + '/flex.webp'} type="image/webp" />
                 <img 
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => window.location.reload()}
+                  title="Click to refresh the page"
                   src={process.env.PUBLIC_URL + '/flex.png'} 
                   alt="Flex.ai brand logo" 
-                  className="h-12 w-auto mb-4" 
+                  className="h-12 w-auto mb-4"
                   loading="lazy"
                 />
               </picture>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
+              <p>
                 Your ultimate fitness companion for personalized workouts, nutrition guidance, and achieving your health goals.
               </p>
             </div>
