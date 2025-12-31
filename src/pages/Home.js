@@ -9,6 +9,7 @@ import { PinContainer } from "../components/ui/3d-pin";
 import HeroSection, { HeroSectionLeftImage, FlexAiAudienceSection } from "../components/HeroSection";
 import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
 import FlexAiContent from '../components/FlexAiContent';
+import AdSense from '../components/AdSense';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -333,6 +334,8 @@ const Home = () => {
           </CardBody>
         </CardContainer>
       </div>
+
+      <AdSense />
 
       <AnimatedTestimonialsDemo />
 
