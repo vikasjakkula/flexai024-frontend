@@ -43,16 +43,72 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         element.style.setProperty('visibility', 'visible', 'important');
         element.style.setProperty('opacity', '1', 'important');
         
-        // Also ensure container
+        // Also ensure container and wrapper
         const container = element.closest('#google-adsense-container');
         if (container) {
           container.style.setProperty('min-height', '100px', 'important');
           container.style.setProperty('width', '100%', 'important');
+          container.style.setProperty('display', 'flex', 'important');
         }
         
+        // Ensure wrapper div has dimensions
+        const wrapper = element.parentElement;
+        if (wrapper && wrapper !== container) {
+          wrapper.style.setProperty('min-height', '100px', 'important');
+          wrapper.style.setProperty('min-width', '320px', 'important');
+          wrapper.style.setProperty('width', '100%', 'important');
+          wrapper.style.setProperty('height', '100px', 'important');
+          wrapper.style.setProperty('display', 'block', 'important');
+        }
+        
+        // Get computed styles to see what's actually applied
+        const computed = window.getComputedStyle(element);
+        const adContainer = element.closest('#google-adsense-container');
+        const adContainerComputed = adContainer ? window.getComputedStyle(adContainer) : null;
+        const parent = element.parentElement;
+        const parentComputed = parent ? window.getComputedStyle(parent) : null;
+        
         console.log('🔧 AdSense FIX - Dimensions set on mount', {
-          offsetWidth: element.offsetWidth,
-          offsetHeight: element.offsetHeight,
+          element: {
+            offsetWidth: element.offsetWidth,
+            offsetHeight: element.offsetHeight,
+            clientWidth: element.clientWidth,
+            clientHeight: element.clientHeight,
+            scrollWidth: element.scrollWidth,
+            scrollHeight: element.scrollHeight,
+            computed: {
+              display: computed.display,
+              width: computed.width,
+              height: computed.height,
+              minWidth: computed.minWidth,
+              minHeight: computed.minHeight,
+              visibility: computed.visibility,
+              opacity: computed.opacity,
+              position: computed.position
+            }
+          },
+          container: adContainer ? {
+            offsetWidth: adContainer.offsetWidth,
+            offsetHeight: adContainer.offsetHeight,
+            computed: {
+              display: adContainerComputed.display,
+              width: adContainerComputed.width,
+              height: adContainerComputed.height,
+              minWidth: adContainerComputed.minWidth,
+              minHeight: adContainerComputed.minHeight
+            }
+          } : 'no container',
+          parent: parent ? {
+            tagName: parent.tagName,
+            className: parent.className,
+            offsetWidth: parent.offsetWidth,
+            offsetHeight: parent.offsetHeight,
+            computed: {
+              display: parentComputed.display,
+              width: parentComputed.width,
+              height: parentComputed.height
+            }
+          } : 'no parent',
           inDOM: document.body.contains(element)
         });
       }
@@ -527,11 +583,9 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         </div>
       )}
       
-      {/* AdSense ad unit */}
-      <ins
-        ref={adRef}
-        className="adsbygoogle"
-        style={{ 
+      {/* Wrapper div to ensure dimensions */}
+      <div
+        style={{
           display: 'block',
           minWidth: '320px',
           minHeight: '100px',
@@ -539,18 +593,35 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           maxWidth: '728px',
           height: '100px',
           position: 'relative',
-          zIndex: 2,
-          textAlign: 'center',
-          visibility: 'visible',
-          opacity: 1,
-          overflow: 'visible',
-          boxSizing: 'border-box'
+          zIndex: 2
         }}
-        data-ad-client="ca-pub-9366739988538654"
-        data-ad-slot={adSlot}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+      >
+        {/* AdSense ad unit */}
+        <ins
+          ref={adRef}
+          className="adsbygoogle"
+          style={{ 
+            display: 'block',
+            minWidth: '320px',
+            minHeight: '100px',
+            width: '100%',
+            maxWidth: '728px',
+            height: '100px',
+            position: 'relative',
+            zIndex: 2,
+            textAlign: 'center',
+            visibility: 'visible',
+            opacity: 1,
+            overflow: 'visible',
+            boxSizing: 'border-box',
+            margin: '0 auto'
+          }}
+          data-ad-client="ca-pub-9366739988538654"
+          data-ad-slot={adSlot}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
     </div>
   );
 };
