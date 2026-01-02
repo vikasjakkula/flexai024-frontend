@@ -192,19 +192,10 @@ const AdSense = ({ adSlot = "1012815210" }) => {
 
         // Wait for the DOM element to be ready
         if (adRef.current) {
-          // Verify ad element attributes before pushing
-          const adElement = adRef.current;
-          console.log('🔍 AdSense CHECK - Verifying ad element before initialization', {
-            hasAdClient: !!adElement.getAttribute('data-ad-client'),
-            hasAdSlot: !!adElement.getAttribute('data-ad-slot'),
-            adClient: adElement.getAttribute('data-ad-client'),
-            adSlot: adElement.getAttribute('data-ad-slot'),
-            className: adElement.className,
-            isVisible: adElement.offsetWidth > 0 && adElement.offsetHeight > 0
-          });
-          
-          // Small delay to ensure everything is ready
-          setTimeout(() => {
+          // Function to initialize the ad
+          const initializeAd = () => {
+            // Small delay to ensure everything is ready
+            setTimeout(() => {
             try {
               // Check if adsbygoogle is ready
               if (!window.adsbygoogle) {
@@ -268,6 +259,58 @@ const AdSense = ({ adSlot = "1012815210" }) => {
               console.error('❌ AdSense ERROR - Error pushing to adsbygoogle:', err);
             }
           }, 100);
+          };
+          
+          // Verify ad element attributes before pushing
+          const adElement = adRef.current;
+          
+          // Check if element has dimensions - AdSense requires visible element
+          const hasDimensions = adElement.offsetWidth > 0 && adElement.offsetHeight > 0;
+          
+          console.log('🔍 AdSense CHECK - Verifying ad element before initialization', {
+            hasAdClient: !!adElement.getAttribute('data-ad-client'),
+            hasAdSlot: !!adElement.getAttribute('data-ad-slot'),
+            adClient: adElement.getAttribute('data-ad-client'),
+            adSlot: adElement.getAttribute('data-ad-slot'),
+            className: adElement.className,
+            isVisible: hasDimensions,
+            offsetWidth: adElement.offsetWidth,
+            offsetHeight: adElement.offsetHeight,
+            computedStyle: {
+              display: window.getComputedStyle(adElement).display,
+              visibility: window.getComputedStyle(adElement).visibility,
+              width: window.getComputedStyle(adElement).width,
+              height: window.getComputedStyle(adElement).height
+            }
+          });
+          
+          // If element has no dimensions, wait a bit more and check again
+          if (!hasDimensions) {
+            console.warn('⚠️ AdSense WARNING - Ad element has zero dimensions, waiting for layout...');
+            // Wait for next frame to ensure layout is complete
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                if (adRef.current && adRef.current.offsetWidth > 0 && adRef.current.offsetHeight > 0) {
+                  console.log('✅ AdSense STATUS - Ad element now has dimensions, proceeding with initialization');
+                  initializeAd();
+                } else {
+                  console.error('❌ AdSense ERROR - Ad element still has zero dimensions after waiting. Cannot initialize.');
+                  // Try to force dimensions
+                  if (adRef.current) {
+                    adRef.current.style.minHeight = '100px';
+                    adRef.current.style.minWidth = '320px';
+                    adRef.current.style.height = '100px';
+                    console.log('🔧 AdSense FIX - Applied explicit dimensions to ad element');
+                    setTimeout(initializeAd, 100);
+                  }
+                }
+              });
+            });
+            return;
+          }
+          
+          // Element has dimensions, proceed with initialization
+          initializeAd();
         } else if (retryCountRef.current < maxRetries) {
           // Retry if element not ready yet
           retryCountRef.current++;
@@ -370,7 +413,7 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         </div>
       )}
       
-      {/* Show placeholder on production only while loading */}
+      {/* Show placeholder on production only while loading - but don't block ad element */}
       {isProduction && showPlaceholder && (
         <div 
           style={{
@@ -383,19 +426,18 @@ const AdSense = ({ adSlot = "1012815210" }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#f9f9f9',
-            border: '1px dashed #ccc',
-            borderRadius: '8px',
+            backgroundColor: 'transparent',
             padding: '20px',
             textAlign: 'center',
             zIndex: 1,
+            pointerEvents: 'none',
             minHeight: '100px',
             minWidth: '320px',
             maxWidth: '728px',
             width: '100%'
           }}
         >
-          <div style={{ fontSize: '12px', color: '#999' }}>
+          <div style={{ fontSize: '12px', color: '#999', backgroundColor: 'rgba(249, 249, 249, 0.8)', padding: '8px', borderRadius: '4px' }}>
             Loading ad...
           </div>
         </div>
@@ -411,9 +453,12 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           minHeight: '100px',
           width: '100%',
           maxWidth: '728px',
+          height: '100px',
           position: 'relative',
           zIndex: 2,
-          textAlign: 'center'
+          textAlign: 'center',
+          visibility: 'visible',
+          opacity: 1
         }}
         data-ad-client="ca-pub-9366739988538654"
         data-ad-slot={adSlot}
