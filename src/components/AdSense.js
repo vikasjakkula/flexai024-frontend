@@ -23,6 +23,50 @@ const AdSense = ({ adSlot = "1012815210" }) => {
   const [isLocalhost3000, setIsLocalhost3000] = useState(isLocalhost3000Initial);
   const [isProduction, setIsProduction] = useState(isProductionDomain);
 
+  // Ensure ad element has dimensions on mount and after render
+  useEffect(() => {
+    const ensureDimensions = () => {
+      if (adRef.current) {
+        const element = adRef.current;
+        // Check if element is in DOM
+        if (!document.body.contains(element)) {
+          console.warn('⚠️ AdSense WARNING - Element not in DOM yet');
+          return;
+        }
+        
+        // Force dimensions immediately
+        element.style.setProperty('min-height', '100px', 'important');
+        element.style.setProperty('min-width', '320px', 'important');
+        element.style.setProperty('height', '100px', 'important');
+        element.style.setProperty('width', '100%', 'important');
+        element.style.setProperty('display', 'block', 'important');
+        element.style.setProperty('visibility', 'visible', 'important');
+        element.style.setProperty('opacity', '1', 'important');
+        
+        // Also ensure container
+        const container = element.closest('#google-adsense-container');
+        if (container) {
+          container.style.setProperty('min-height', '100px', 'important');
+          container.style.setProperty('width', '100%', 'important');
+        }
+        
+        console.log('🔧 AdSense FIX - Dimensions set on mount', {
+          offsetWidth: element.offsetWidth,
+          offsetHeight: element.offsetHeight,
+          inDOM: document.body.contains(element)
+        });
+      }
+    };
+    
+    // Run immediately
+    ensureDimensions();
+    
+    // Also run after a short delay to catch any late renders
+    const timer = setTimeout(ensureDimensions, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     // Check current domain
     const hostname = window.location.hostname;
@@ -294,14 +338,50 @@ const AdSense = ({ adSlot = "1012815210" }) => {
                   console.log('✅ AdSense STATUS - Ad element now has dimensions, proceeding with initialization');
                   initializeAd();
                 } else {
-                  console.error('❌ AdSense ERROR - Ad element still has zero dimensions after waiting. Cannot initialize.');
-                  // Try to force dimensions
+                  console.error('❌ AdSense ERROR - Ad element still has zero dimensions after waiting.');
+                  // Try to force dimensions aggressively
                   if (adRef.current) {
-                    adRef.current.style.minHeight = '100px';
-                    adRef.current.style.minWidth = '320px';
-                    adRef.current.style.height = '100px';
-                    console.log('🔧 AdSense FIX - Applied explicit dimensions to ad element');
-                    setTimeout(initializeAd, 100);
+                    const element = adRef.current;
+                    // Use setProperty with important flag
+                    element.style.setProperty('min-height', '100px', 'important');
+                    element.style.setProperty('min-width', '320px', 'important');
+                    element.style.setProperty('height', '100px', 'important');
+                    element.style.setProperty('width', '100%', 'important');
+                    element.style.setProperty('display', 'block', 'important');
+                    element.style.setProperty('visibility', 'visible', 'important');
+                    element.style.setProperty('opacity', '1', 'important');
+                    
+                    // Also ensure parent container has dimensions
+                    const container = element.closest('#google-adsense-container');
+                    if (container) {
+                      container.style.setProperty('min-height', '100px', 'important');
+                      container.style.setProperty('width', '100%', 'important');
+                      container.style.setProperty('display', 'flex', 'important');
+                    }
+                    
+                    console.log('🔧 AdSense FIX - Applied explicit dimensions with !important', {
+                      elementDimensions: {
+                        offsetWidth: element.offsetWidth,
+                        offsetHeight: element.offsetHeight,
+                        computedWidth: window.getComputedStyle(element).width,
+                        computedHeight: window.getComputedStyle(element).height
+                      },
+                      containerDimensions: container ? {
+                        offsetWidth: container.offsetWidth,
+                        offsetHeight: container.offsetHeight
+                      } : 'no container found'
+                    });
+                    
+                    // Wait a bit more and check again
+                    setTimeout(() => {
+                      if (element.offsetWidth > 0 && element.offsetHeight > 0) {
+                        console.log('✅ AdSense STATUS - Element now has dimensions, initializing...');
+                        initializeAd();
+                      } else {
+                        console.error('❌ AdSense ERROR - Element still has zero dimensions after force fix. Proceeding anyway...');
+                        initializeAd(); // Try anyway
+                      }
+                    }, 200);
                   }
                 }
               });
@@ -354,10 +434,14 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         justifyContent: 'center', 
         alignItems: 'center',
         minHeight: '100px',
+        height: 'auto',
         margin: '2rem 0',
         padding: '1rem',
         width: '100%',
-        position: 'relative'
+        maxWidth: '100%',
+        position: 'relative',
+        overflow: 'visible',
+        visibility: 'visible'
       }}
     >
       {/* Placeholder - Only show on localhost:3000, hide on production when ad loads */}
@@ -458,7 +542,9 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           zIndex: 2,
           textAlign: 'center',
           visibility: 'visible',
-          opacity: 1
+          opacity: 1,
+          overflow: 'visible',
+          boxSizing: 'border-box'
         }}
         data-ad-client="ca-pub-9366739988538654"
         data-ad-slot={adSlot}
