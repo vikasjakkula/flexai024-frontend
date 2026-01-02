@@ -1,0 +1,5 @@
+# ads.txt file for flexai024.vercel.app
+# This file authorizes Google AdSense to serve ads on this domain
+
+google.com, pub-9366739988538654, DIRECT, f08c47fec0942fa0
+

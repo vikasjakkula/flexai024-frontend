@@ -11,40 +11,52 @@ const AdSense = ({ adSlot = "1012815210" }) => {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const port = typeof window !== 'undefined' ? window.location.port : '';
   const host = typeof window !== 'undefined' ? window.location.host : '';
+  
+  // Check if localhost:3000 (for testing with placeholder)
   const isLocalhost3000Initial = 
     (hostname === 'localhost' || hostname === '127.0.0.1') && 
     (port === '3000' || host === 'localhost:3000' || host === '127.0.0.1:3000');
   
+  // Check if production domain
+  const isProductionDomain = hostname === 'flexai024.vercel.app' || hostname.includes('vercel.app');
+  
   const [isLocalhost3000, setIsLocalhost3000] = useState(isLocalhost3000Initial);
+  const [isProduction, setIsProduction] = useState(isProductionDomain);
 
   useEffect(() => {
-    // Check if running on localhost:3000 ONLY
+    // Check current domain
     const hostname = window.location.hostname;
     const port = window.location.port;
-    const host = window.location.host; // e.g., "localhost:3000"
+    const host = window.location.host;
+    const href = window.location.href;
     
-    // Check multiple ways to detect localhost:3000
+    // Check if localhost:3000 (for testing)
     const isLocalhost3000Check = 
       (hostname === 'localhost' || hostname === '127.0.0.1') && 
       (port === '3000' || host === 'localhost:3000' || host === '127.0.0.1:3000');
+    
+    // Check if production domain
+    const isProductionCheck = hostname === 'flexai024.vercel.app' || hostname.includes('vercel.app');
     
     console.log('🔍 AdSense Debug:', {
       hostname,
       port,
       host,
-      isLocalhost3000: isLocalhost3000Check
+      href,
+      isLocalhost3000: isLocalhost3000Check,
+      isProduction: isProductionCheck
     });
     
     setIsLocalhost3000(isLocalhost3000Check);
+    setIsProduction(isProductionCheck);
 
-    // If not localhost:3000, don't initialize ads
-    if (!isLocalhost3000Check) {
-      console.log('🚫 AdSense disabled - only works on localhost:3000');
-      console.log('Current location:', window.location.href);
-      return;
-    }
-
-    console.log('✅ AdSense enabled for localhost:3000');
+    console.log('📊 AdSense STATUS - Component initialized', {
+      domain: hostname,
+      isLocalhost: isLocalhost3000Check,
+      isProduction: isProductionCheck,
+      adSlot,
+      clientId: 'ca-pub-9366739988538654'
+    });
 
     // Function to load AdSense script if not already loaded
     const loadAdSenseScript = () => {
@@ -60,11 +72,11 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         script.async = true;
         script.crossOrigin = 'anonymous';
         script.onload = () => {
-          console.log('✅ AdSense script loaded successfully');
+          console.log('✅ AdSense STATUS - Script loaded successfully');
           resolve();
         };
         script.onerror = () => {
-          console.error('❌ Failed to load AdSense script');
+          console.error('❌ AdSense ERROR - Failed to load AdSense script');
           reject(new Error('Failed to load AdSense script'));
         };
         document.head.appendChild(script);
@@ -80,12 +92,29 @@ const AdSense = ({ adSlot = "1012815210" }) => {
                           adElement.innerHTML.trim().length > 0 ||
                           adElement.offsetHeight > 50;
         
+        const adDetails = {
+          hasContent,
+          childrenCount: adElement.children.length,
+          innerHTMLLength: adElement.innerHTML.trim().length,
+          offsetHeight: adElement.offsetHeight,
+          offsetWidth: adElement.offsetWidth,
+          hostname
+        };
+        
         if (hasContent) {
-          setShowPlaceholder(false);
-          console.log('✅ AdSense ad content detected on localhost:3000');
+          // Only hide placeholder on production, keep it on localhost for testing
+          if (isProductionCheck) {
+            setShowPlaceholder(false);
+            console.log('✅ AdSense WORKING - Ad content detected on production', adDetails);
+          } else {
+            console.log('✅ AdSense WORKING - Ad content detected on localhost:3000 (placeholder remains for testing)', adDetails);
+          }
         } else {
-          console.log('ℹ️ AdSense loading on localhost:3000 - placeholder visible');
+          const location = isLocalhost3000Check ? 'localhost:3000' : (isProductionCheck ? 'production' : hostname);
+          console.log(`⏳ AdSense STATUS - Still loading on ${location}`, adDetails);
         }
+      } else {
+        console.warn('⚠️ AdSense STATUS - Ad element not found (adRef.current is null)');
       }
     };
 
@@ -109,18 +138,32 @@ const AdSense = ({ adSlot = "1012815210" }) => {
             try {
               (window.adsbygoogle = window.adsbygoogle || []).push({});
               pushedRef.current = true;
-              console.log('✅ AdSense ad initialized successfully on localhost:3000', {
+              const location = isLocalhost3000Check ? 'localhost:3000' : (isProductionCheck ? 'production' : hostname);
+              console.log(`✅ AdSense STATUS - Ad initialized successfully on ${location}`, {
                 adSlot,
                 client: 'ca-pub-9366739988538654',
-                location: 'Home Page - Middle Section (after stats cards, before testimonials)',
-                host: window.location.host
+                pageLocation: 'Home Page - Middle Section (after stats cards, before testimonials)',
+                host: window.location.host,
+                domain: hostname,
+                adsbygoogleAvailable: !!window.adsbygoogle,
+                adsbygoogleLength: window.adsbygoogle?.length || 0
               });
               
-              // Check if ad loaded after a delay
-              setTimeout(checkAdLoaded, 2000);
-              setTimeout(checkAdLoaded, 5000);
+              // Check if ad loaded after delays
+              setTimeout(() => {
+                console.log('🔍 AdSense CHECK - Checking ad status after 2 seconds...');
+                checkAdLoaded();
+              }, 2000);
+              setTimeout(() => {
+                console.log('🔍 AdSense CHECK - Checking ad status after 5 seconds...');
+                checkAdLoaded();
+              }, 5000);
+              setTimeout(() => {
+                console.log('🔍 AdSense CHECK - Final check after 10 seconds...');
+                checkAdLoaded();
+              }, 10000);
             } catch (err) {
-              console.error('❌ Error pushing to adsbygoogle:', err);
+              console.error('❌ AdSense ERROR - Error pushing to adsbygoogle:', err);
             }
           }, 100);
         } else if (retryCountRef.current < maxRetries) {
@@ -129,11 +172,18 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           setTimeout(initAdSense, 100);
         }
       } catch (err) {
-        console.error('❌ AdSense initialization error:', err);
+        console.error('❌ AdSense ERROR - Initialization error:', err, {
+          retryCount: retryCountRef.current,
+          maxRetries,
+          willRetry: retryCountRef.current < maxRetries
+        });
         // Retry on error
         if (retryCountRef.current < maxRetries) {
           retryCountRef.current++;
+          console.log(`🔄 AdSense STATUS - Retrying initialization (attempt ${retryCountRef.current}/${maxRetries})...`);
           setTimeout(initAdSense, 200);
+        } else {
+          console.error('❌ AdSense ERROR - Max retries reached. AdSense initialization failed.');
         }
       }
     };
@@ -146,20 +196,8 @@ const AdSense = ({ adSlot = "1012815210" }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [adSlot, isLocalhost3000]);
+  }, [adSlot, isLocalhost3000, isProduction]);
 
-  // Always show placeholder on localhost:3000, even if ad doesn't load
-  // Don't render anything if not on localhost:3000
-  if (!isLocalhost3000) {
-    if (typeof window !== 'undefined') {
-      console.log('🚫 AdSense component not rendering - not on localhost:3000', {
-        hostname: window.location.hostname,
-        port: window.location.port,
-        host: window.location.host
-      });
-    }
-    return null;
-  }
 
   return (
     <div 
@@ -177,56 +215,89 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         position: 'relative'
       }}
     >
-      {/* Placeholder for localhost:3000 - Always visible on localhost */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#e8f4f8',
-          border: '3px solid #1b9df3',
-          borderRadius: '12px',
-          padding: '30px',
-          textAlign: 'center',
-          zIndex: 10,
-          minHeight: '150px',
-          minWidth: '320px',
-          maxWidth: '728px',
-          width: '100%',
-          boxShadow: '0 4px 12px rgba(27, 157, 243, 0.2)'
-        }}
-      >
-        <div style={{ fontSize: '18px', color: '#1b9df3', marginBottom: '10px', fontWeight: 'bold' }}>
-          📢 Google AdSense Ad
-        </div>
-        <div style={{ fontSize: '14px', color: '#333', marginBottom: '8px' }}>
-          ✅ Displaying on localhost:3000
-        </div>
-        <div style={{ fontSize: '12px', color: '#666', marginBottom: '12px' }}>
-          {showPlaceholder ? '🔄 Loading ad...' : '✅ Ad initialized'}
-        </div>
-        <div style={{ 
-          fontSize: '11px', 
-          color: '#888', 
-          marginTop: '8px',
-          padding: '8px',
-          backgroundColor: '#fff',
-          borderRadius: '6px',
-          border: '1px solid #ddd'
-        }}>
-          <div>Ad Slot: <strong>{adSlot}</strong></div>
-          <div>Client ID: <strong>ca-pub-9366739988538654</strong></div>
-          <div style={{ marginTop: '4px', fontSize: '10px', color: '#aaa' }}>
-            ℹ️ Note: Real ads only display on production domains
+      {/* Placeholder - Only show on localhost:3000, hide on production when ad loads */}
+      {isLocalhost3000 && showPlaceholder && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#e8f4f8',
+            border: '3px solid #1b9df3',
+            borderRadius: '12px',
+            padding: '30px',
+            textAlign: 'center',
+            zIndex: 10,
+            minHeight: '150px',
+            minWidth: '320px',
+            maxWidth: '728px',
+            width: '100%',
+            boxShadow: '0 4px 12px rgba(27, 157, 243, 0.2)'
+          }}
+        >
+          <div style={{ fontSize: '18px', color: '#1b9df3', marginBottom: '10px', fontWeight: 'bold' }}>
+            📢 Google AdSense Ad
+          </div>
+          <div style={{ fontSize: '14px', color: '#333', marginBottom: '8px' }}>
+            ✅ Displaying on localhost:3000 (Testing)
+          </div>
+          <div style={{ fontSize: '12px', color: '#666', marginBottom: '12px' }}>
+            {showPlaceholder ? '🔄 Loading ad...' : '✅ Ad initialized'}
+          </div>
+          <div style={{ 
+            fontSize: '11px', 
+            color: '#888', 
+            marginTop: '8px',
+            padding: '8px',
+            backgroundColor: '#fff',
+            borderRadius: '6px',
+            border: '1px solid #ddd'
+          }}>
+            <div>Ad Slot: <strong>{adSlot}</strong></div>
+            <div>Client ID: <strong>ca-pub-9366739988538654</strong></div>
+            <div style={{ marginTop: '4px', fontSize: '10px', color: '#aaa' }}>
+              ℹ️ Real ads display on production: flexai024.vercel.app
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      
+      {/* Show placeholder on production only while loading */}
+      {isProduction && showPlaceholder && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#f9f9f9',
+            border: '1px dashed #ccc',
+            borderRadius: '8px',
+            padding: '20px',
+            textAlign: 'center',
+            zIndex: 1,
+            minHeight: '100px',
+            minWidth: '320px',
+            maxWidth: '728px',
+            width: '100%'
+          }}
+        >
+          <div style={{ fontSize: '12px', color: '#999' }}>
+            Loading ad...
+          </div>
+        </div>
+      )}
       
       {/* testingads */}
       <ins
