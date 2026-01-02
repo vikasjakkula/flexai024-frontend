@@ -63,6 +63,16 @@ const AdSense = ({ adSlot = "1012815210" }) => {
       // Check if script already exists
       const existingScript = document.querySelector('script[src*="adsbygoogle.js"]');
       if (existingScript) {
+        console.log('✅ AdSense STATUS - Script already exists in DOM');
+        // Check if adsbygoogle is available
+        if (window.adsbygoogle && typeof window.adsbygoogle.loaded === 'boolean') {
+          console.log('✅ AdSense STATUS - adsbygoogle API is loaded and ready', {
+            loaded: window.adsbygoogle.loaded,
+            length: window.adsbygoogle.length
+          });
+        } else {
+          console.warn('⚠️ AdSense WARNING - Script exists but adsbygoogle API not ready yet');
+        }
         return Promise.resolve();
       }
 
@@ -72,7 +82,10 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         script.async = true;
         script.crossOrigin = 'anonymous';
         script.onload = () => {
-          console.log('✅ AdSense STATUS - Script loaded successfully');
+          console.log('✅ AdSense STATUS - Script loaded successfully', {
+            adsbygoogleAvailable: !!window.adsbygoogle,
+            adsbygoogleLoaded: window.adsbygoogle?.loaded
+          });
           resolve();
         };
         script.onerror = () => {
@@ -80,6 +93,7 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           reject(new Error('Failed to load AdSense script'));
         };
         document.head.appendChild(script);
+        console.log('📤 AdSense STATUS - Script tag added to DOM, waiting for load...');
       });
     };
 
@@ -87,10 +101,27 @@ const AdSense = ({ adSlot = "1012815210" }) => {
     const checkAdLoaded = () => {
       if (adRef.current) {
         const adElement = adRef.current;
+        
+        // Check for AdSense-specific attributes and classes
+        const hasAdSenseClass = adElement.classList.contains('adsbygoogle');
+        const hasAdClient = adElement.getAttribute('data-ad-client');
+        const hasAdSlot = adElement.getAttribute('data-ad-slot');
+        
         // Check if ad has content (not just empty)
         const hasContent = adElement.children.length > 0 || 
                           adElement.innerHTML.trim().length > 0 ||
                           adElement.offsetHeight > 50;
+        
+        // Check for iframe (ads are usually in iframes)
+        const hasIframe = adElement.querySelector('iframe');
+        const iframeSrc = hasIframe ? hasIframe.src : null;
+        
+        // Check visibility
+        const rect = adElement.getBoundingClientRect();
+        const isVisible = rect.width > 0 && rect.height > 0;
+        const isInViewport = rect.top >= 0 && rect.left >= 0 && 
+                            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                            rect.right <= (window.innerWidth || document.documentElement.clientWidth);
         
         const adDetails = {
           hasContent,
@@ -98,10 +129,35 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           innerHTMLLength: adElement.innerHTML.trim().length,
           offsetHeight: adElement.offsetHeight,
           offsetWidth: adElement.offsetWidth,
-          hostname
+          hasAdSenseClass,
+          hasAdClient,
+          hasAdSlot,
+          hasIframe: !!hasIframe,
+          iframeSrc,
+          isVisible,
+          isInViewport,
+          boundingRect: {
+            top: rect.top,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height
+          },
+          hostname,
+          computedStyle: {
+            display: window.getComputedStyle(adElement).display,
+            visibility: window.getComputedStyle(adElement).visibility,
+            opacity: window.getComputedStyle(adElement).opacity
+          }
         };
         
-        if (hasContent) {
+        // Check for common AdSense issues
+        const issues = [];
+        if (!isVisible) issues.push('Ad element has zero dimensions');
+        if (!isInViewport) issues.push('Ad element not in viewport');
+        if (adElement.offsetHeight < 50) issues.push('Ad element too small (min 50px required)');
+        if (!hasIframe && !hasContent) issues.push('No iframe or content detected');
+        
+        if (hasContent || hasIframe) {
           // Only hide placeholder on production, keep it on localhost for testing
           if (isProductionCheck) {
             setShowPlaceholder(false);
@@ -112,6 +168,9 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         } else {
           const location = isLocalhost3000Check ? 'localhost:3000' : (isProductionCheck ? 'production' : hostname);
           console.log(`⏳ AdSense STATUS - Still loading on ${location}`, adDetails);
+          if (issues.length > 0) {
+            console.warn('⚠️ AdSense WARNING - Potential issues detected:', issues);
+          }
         }
       } else {
         console.warn('⚠️ AdSense STATUS - Ad element not found (adRef.current is null)');
@@ -133,11 +192,42 @@ const AdSense = ({ adSlot = "1012815210" }) => {
 
         // Wait for the DOM element to be ready
         if (adRef.current) {
+          // Verify ad element attributes before pushing
+          const adElement = adRef.current;
+          console.log('🔍 AdSense CHECK - Verifying ad element before initialization', {
+            hasAdClient: !!adElement.getAttribute('data-ad-client'),
+            hasAdSlot: !!adElement.getAttribute('data-ad-slot'),
+            adClient: adElement.getAttribute('data-ad-client'),
+            adSlot: adElement.getAttribute('data-ad-slot'),
+            className: adElement.className,
+            isVisible: adElement.offsetWidth > 0 && adElement.offsetHeight > 0
+          });
+          
           // Small delay to ensure everything is ready
           setTimeout(() => {
             try {
+              // Check if adsbygoogle is ready
+              if (!window.adsbygoogle) {
+                console.warn('⚠️ AdSense WARNING - window.adsbygoogle not available, creating array');
+                window.adsbygoogle = [];
+              }
+              
+              // Push empty config (AdSense reads from data attributes)
               (window.adsbygoogle = window.adsbygoogle || []).push({});
               pushedRef.current = true;
+              
+              // Try to manually request ad fill if API is available
+              if (window.adsbygoogle && window.adsbygoogle.loaded === true && adRef.current) {
+                try {
+                  // Request ad fill manually
+                  if (typeof window.adsbygoogle.requestNonPersonalizedAds === 'function') {
+                    console.log('🔄 AdSense STATUS - Requesting non-personalized ads...');
+                  }
+                } catch (e) {
+                  console.warn('⚠️ AdSense WARNING - Could not manually request ads:', e);
+                }
+              }
+              
               const location = isLocalhost3000Check ? 'localhost:3000' : (isProductionCheck ? 'production' : hostname);
               console.log(`✅ AdSense STATUS - Ad initialized successfully on ${location}`, {
                 adSlot,
@@ -146,8 +236,16 @@ const AdSense = ({ adSlot = "1012815210" }) => {
                 host: window.location.host,
                 domain: hostname,
                 adsbygoogleAvailable: !!window.adsbygoogle,
-                adsbygoogleLength: window.adsbygoogle?.length || 0
+                adsbygoogleLength: window.adsbygoogle?.length || 0,
+                adsbygoogleLoaded: window.adsbygoogle?.loaded,
+                adElementReady: !!adRef.current,
+                adElementVisible: adRef.current ? (adRef.current.offsetWidth > 0 && adRef.current.offsetHeight > 0) : false
               });
+              
+              // Check for AdSense errors in console (they might appear later)
+              console.log('💡 AdSense TIP - Check browser console for any Google AdSense errors');
+              console.log('💡 AdSense TIP - Verify domain is approved in AdSense account');
+              console.log('💡 AdSense TIP - Disable ad blockers to test');
               
               // Check if ad loaded after delays
               setTimeout(() => {
@@ -159,9 +257,13 @@ const AdSense = ({ adSlot = "1012815210" }) => {
                 checkAdLoaded();
               }, 5000);
               setTimeout(() => {
-                console.log('🔍 AdSense CHECK - Final check after 10 seconds...');
+                console.log('🔍 AdSense CHECK - Checking ad status after 10 seconds...');
                 checkAdLoaded();
               }, 10000);
+              setTimeout(() => {
+                console.log('🔍 AdSense CHECK - Final check after 15 seconds...');
+                checkAdLoaded();
+              }, 15000);
             } catch (err) {
               console.error('❌ AdSense ERROR - Error pushing to adsbygoogle:', err);
             }
@@ -299,7 +401,7 @@ const AdSense = ({ adSlot = "1012815210" }) => {
         </div>
       )}
       
-      {/* testingads */}
+      {/* AdSense ad unit */}
       <ins
         ref={adRef}
         className="adsbygoogle"
@@ -310,7 +412,8 @@ const AdSense = ({ adSlot = "1012815210" }) => {
           width: '100%',
           maxWidth: '728px',
           position: 'relative',
-          zIndex: 2
+          zIndex: 2,
+          textAlign: 'center'
         }}
         data-ad-client="ca-pub-9366739988538654"
         data-ad-slot={adSlot}
